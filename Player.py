@@ -73,6 +73,4 @@ class Player(object):
         self.have_gain = sum(self.gain)
     
     def life(self):
-        if self.money >= 0:
-            return True
-        return False
+        return self.money >= 0

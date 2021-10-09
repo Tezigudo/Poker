@@ -52,7 +52,7 @@ class game:
             self.P3 = Player(str(input('Enter player3 name: ')))
             self.P4 = computer_player('Bot1')
             self.P5 = computer_player('Bot2')
-        elif [self.P2, self.P3, self.P4] != [None, None, None] and self.P5 == None:
+        elif [self.P2, self.P3, self.P4] != [None, None, None] and self.P5 is None:
             self.P1 = Player(str(input('Enter player1 name: ')))
             self.P2 = Player(str(input('Enter player2 name: ')))
             self.P3 = Player(str(input('Enter player3 name: ')))
@@ -79,16 +79,10 @@ class game:
 
     def win_condition(self, Player, deng = None):
         def Pok8():
-            if len(Player.hand) == 2 and Player.calculate_val() == 8:
-                return True
-            else:
-                return False      
+            return len(Player.hand) == 2 and Player.calculate_val() == 8      
         
         def Pok9():
-            if len(Player.hand) == 2 and Player.calculate_val() == 9:
-                return True
-            else:
-                return False
+            return len(Player.hand) == 2 and Player.calculate_val() == 9
 
         def Twice_card():
             if len(Player.hand) == 2:
@@ -97,10 +91,7 @@ class game:
                     for a in c.split(' '):
                         if a.isdigit() or (a in ['King', 'Queen', 'Jack', 'Ace']):
                             name.append(a)
-                if len(set(name)) == 1:
-                    return True
-                else:
-                    return False
+                return len(set(name)) == 1
 
         def Thrice_card():
             if len(Player.hand) == 3:
@@ -109,10 +100,7 @@ class game:
                     for a in c.split(' '):
                         if a.isdigit() or (a in ['King', 'Queen', 'Jack', 'Ace']):
                             name.append(a)
-                if len(set(name)) == 1:
-                    return True
-                else:
-                    return False
+                return len(set(name)) == 1
                     
         if Pok8():
             print(f'{Player.name} Pok 8!')
@@ -154,9 +142,7 @@ class game:
                 Players.show_hand()
                 Players.append_value2()
                 Players.show_cal_val()
-            elif ans in ['N', 'n']:
-                pass
-            else:
+            elif ans not in ['N', 'n']:
                 print('invalid input')
                 ask()
         Players.show_hand()
@@ -228,7 +214,7 @@ class game:
         for pla in self.player_turple:
             if pla.money <= 0:
                 print(f'{pla.name} lose and have money {pla.money}')
-            elif pla.money > 0:
+            else:
                 print(f'{pla.name} win with have money {pla.money}')
 
     def if_more_than_dealer_val(self, Players):
@@ -284,9 +270,7 @@ class game:
         self.deck.reset_deck()
 
     def if_play(self):
-        life = [] #life of contributer
-        for cbt in self.player_turple:
-            life.append(cbt.life())
+        life = [cbt.life() for cbt in self.player_turple]
         return all(life)
 
     def play(self): #dealer has no bet need to fix next time. 
@@ -324,11 +308,9 @@ dont forget to subscribe me
     if anss == '1':
         into_game()
     elif anss == '2':
-        t = 3
-        while t > 0:
+        for t in range(3, 0, -1):
             print(f'Program going to quit in {t} secs', end = '\r')
             time.sleep(1)
-            t -= 1
     else:
         print('Invalid input')
         lobby()
